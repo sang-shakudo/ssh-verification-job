@@ -38,10 +38,16 @@ def get_remote_key(client, host, port=22):
     key_types = ['ssh-ed25519', 'ecdsa-sha2-nistp256','ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521','ssh-rsa','ssh-dss']
     transport = client.get_transport()
     
+    print(f"_preferred_keys: {transport._preferred_keys}")
+
     for key_type in key_types:
+        print(f"key_type: {key_type}")
+        
         transport.get_security_options().key_types = [key_type]
+        
         key = transport.get_remote_server_key()
         key_base64 = key.get_base64()
+        
         print(f"Host: {host}")
         print(f"Type: {key.get_name()}")
         print(f"Key: {key_base64}")
