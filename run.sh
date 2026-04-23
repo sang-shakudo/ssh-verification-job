@@ -17,7 +17,7 @@ if ! command -v uv &> /dev/null; then
 fi
 
 # refresh PATH
-source $HOME/.zshrc | tee -a process.log
+source $HOME/.local/bin/env | tee -a process.log
 
 # Create virtual environment if it doesn't exist
 if [ ! -d ".venv" ]; then
