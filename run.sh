@@ -19,14 +19,16 @@ fi
 echo "refresh PATH .. " | tee -a process.log
 echo $HOME | tee -a process.log 
 find /root/.local/bin | tee -a process.log
+
 source $HOME/.local/bin/env | tee -a process.log
 echo $PATH | tee -a process.log
-export PATH="$HOME/.local/bin:$PATH" | tee -a process.log
+
+export PATH="/root/.local/bin:$PATH" | tee -a process.log
 echo $PATH | tee -a process.log
 # Create virtual environment if it doesn't exist
 if [ ! -d ".venv" ]; then
     echo "Creating virtual environment..."
-    uv venv | tee -a process.log
+    /root/.local/bin/uv venv | tee -a process.log
 fi
 
 
@@ -35,6 +37,6 @@ source .venv/bin/activate | tee -a process.log
 
 # Install dependencies using uv
 echo "Installing dependencies..."
-uv sync | tee -a process.log
+/root/.local/bin/uv sync | tee -a process.log
 
-uv run python3 main.py
+/root/.local/bin/uv run python3 main.py
