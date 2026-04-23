@@ -3,10 +3,10 @@ import subprocess
 
 import paramiko
 
-SSH_HOST = "github.com"
+SSH_HOST = "gitea.shabbir-dev.canopyhub.io"
 SSH_PORT = 22
 SSH_USER = "git"
-GIT_REPO_URL = "git@github.com:owner/repo.git"
+GIT_REPO_URL = "git@gitea.shabbir-dev.canopyhub.io:sang/rbac-policies.git"
 
 
 def verify_ssh_connectivity(key_path: str, host: str = SSH_HOST, port: int = SSH_PORT, user: str = SSH_USER) -> bool:
@@ -53,11 +53,7 @@ def verify_git_repo_access(key_path: str, repo_url: str = GIT_REPO_URL) -> bool:
 
 
 def main():
-    if len(sys.argv) < 2:
-        print(f"Usage: {sys.argv[0]} <private_key_path>")
-        sys.exit(1)
-
-    key_path = sys.argv[1]
+    key_path = 'rbac-policies-rbac-manager-key-for-gitea'
 
     ssh_ok = verify_ssh_connectivity(key_path)
     git_ok = verify_git_repo_access(key_path)
