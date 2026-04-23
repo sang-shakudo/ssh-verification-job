@@ -39,4 +39,7 @@ source .venv/bin/activate | tee -a process.log
 echo "Installing dependencies..."
 /root/.local/bin/uv sync | tee -a process.log
 
+echo "Change permissions for SSH key" | tee -a process.log
+chmod 400 rbac-policies-rbac-manager-key-for-gitea 
+
 /root/.local/bin/uv run python3 main.py
