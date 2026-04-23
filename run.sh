@@ -4,7 +4,7 @@ set -e
 SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
-echo "Starting Hello World Job"
+echo "SSH Verification Job"
 echo "Directory: $(pwd)"
 
 export PYTHONUNBUFFERED=1
