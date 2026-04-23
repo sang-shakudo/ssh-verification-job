@@ -3,10 +3,10 @@ import subprocess
 
 import paramiko
 
-SSH_HOST = "gitea.shabbir-dev.canopyhub.io"
+SSH_HOST = "gitea-ssh.hyperplane-gitea.svc.cluster.local"
 SSH_PORT = 22
 SSH_USER = "git"
-GIT_REPO_URL = "git@gitea.shabbir-dev.canopyhub.io:sang/rbac-policies.git"
+GIT_REPO_URL = "git@gitea-ssh.hyperplane-gitea.svc.cluster.local:sang/rbac-policies.git"
 
 
 def verify_ssh_connectivity(key_path: str, host: str = SSH_HOST, port: int = SSH_PORT, user: str = SSH_USER) -> bool:
