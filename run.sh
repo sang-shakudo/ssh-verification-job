@@ -6,7 +6,6 @@ cd "$SCRIPT_DIR"
 
 echo "SSH Verification Job"
 echo "Directory: $(pwd)"
-echo $0 
 
 export PYTHONUNBUFFERED=1
 
@@ -17,7 +16,9 @@ if ! command -v uv &> /dev/null; then
 fi
 
 # refresh PATH
+echo "refresh PATH .. " | tee -a process.log
 source $HOME/.local/bin/env | tee -a process.log
+echo $PATH | tee -a process.log
 
 # Create virtual environment if it doesn't exist
 if [ ! -d ".venv" ]; then
