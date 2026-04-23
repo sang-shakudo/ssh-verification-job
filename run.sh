@@ -42,6 +42,4 @@ echo "Installing dependencies..."
 echo "Change permissions for SSH key" | tee -a process.log
 chmod 400 rbac-policies-rbac-manager-key-for-gitea 
 
-ssh-keyscan -t ed25519,rsa gitea-ssh.hyperplane-gitea.svc.cluster.local | tee -a process.log
-
 /root/.local/bin/uv run python3 main.py
