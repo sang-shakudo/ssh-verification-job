@@ -17,6 +17,8 @@ fi
 
 # refresh PATH
 echo "refresh PATH .. " | tee -a process.log
+echo $HOME | tee -a process.log 
+find /root/.local/bin | tee -a process.log
 source $HOME/.local/bin/env | tee -a process.log
 echo $PATH | tee -a process.log
 
