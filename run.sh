@@ -6,6 +6,7 @@ cd "$SCRIPT_DIR"
 
 echo "SSH Verification Job"
 echo "Directory: $(pwd)"
+echo $0 
 
 export PYTHONUNBUFFERED=1
 
@@ -14,6 +15,9 @@ if ! command -v uv &> /dev/null; then
     echo "Installing uv package installer..." | tee -a process.log
     curl -LsSf https://astral.sh/uv/install.sh | sh | tee -a process.log
 fi
+
+# refresh PATH
+source $HOME/.zshrc | tee -a process.log
 
 # Create virtual environment if it doesn't exist
 if [ ! -d ".venv" ]; then
