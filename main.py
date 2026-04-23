@@ -21,6 +21,9 @@ def scan_ssh_host_keys(host: str = SSH_HOST, output_path: str = KNOWN_HOSTS_FILE
             text=True,
             timeout=30,
         )
+
+        print(f"{result}")
+
         if result.returncode != 0 or not result.stdout.strip():
             print(f"[FAIL] ssh-keyscan for {host} failed: {result.stderr.strip()}")
             return None
@@ -31,8 +34,19 @@ def scan_ssh_host_keys(host: str = SSH_HOST, output_path: str = KNOWN_HOSTS_FILE
         print(f"[FAIL] ssh-keyscan for {host} failed: {e}")
         return None
 
+def get_remote_key(client, host, port=22):
+    key_types = ['ssh-ed25519', 'ecdsa-sha2-nistp256','ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521','ssh-rsa','ssh-dss']
+    transport = client.get_transport()
+    
+    for key_type in key_types:
+        transport.get_security_options().key_types = [key_type]
+        key = transport.get_remote_server_key()
+        key_base64 = key.get_base64()
+        print(f"Host: {host}")
+        print(f"Type: {key.get_name()}")
+        print(f"Key: {key_base64}")
 
-def verify_ssh_connectivity(key_path: str, host: str = SSH_HOST, port: int = SSH_PORT, user: str = SSH_USER, known_hosts_path: str = PARAMIKO_KNOWN_HOSTS_FILE) -> bool:
+def verify_ssh_connectivity(key_path: str, host: str = SSH_HOST, port: int = SSH_PORT, user: str = SSH_USER) -> bool:
     try:
         key = paramiko.Ed25519Key.from_private_key_file(key_path)
     except paramiko.SSHException:
@@ -42,15 +56,10 @@ def verify_ssh_connectivity(key_path: str, host: str = SSH_HOST, port: int = SSH
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     try:
         client.connect(hostname=host, port=port, username=user, pkey=key, timeout=10)
-        transport = client.get_transport()
-        if transport is None:
-            raise paramiko.SSHException("No transport after connect")
-        remote_key = transport.get_remote_server_key()
-        host_keys = paramiko.HostKeys(known_hosts_path)
-        host_keys.add(host, remote_key.get_name(), remote_key)
-        host_keys.save(known_hosts_path)
         print(f"[OK] SSH connectivity to {user}@{host}:{port} succeeded")
-        print(f"[OK] Wrote paramiko host key for {host} to {known_hosts_path}")
+
+        get_remote_key(client, host, port)
+        print(f"[OK] Host key for {host}")
         return True
     except Exception as e:
         print(f"[FAIL] SSH connectivity to {user}@{host}:{port} failed: {e}")
